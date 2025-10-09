@@ -28,7 +28,7 @@ jobs:
         with:
           version: 9
         
-      - name: install depenecies
+      - name: install dependencies
         run: pnpm install --frozen-lockfile
 
       - name: build project
@@ -38,7 +38,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: frontend-build
-          path: ./frontend/.next  
+          path: .next  
         
       - name: Deploy to Vercel
         uses: amondnet/vercel-action@v25
