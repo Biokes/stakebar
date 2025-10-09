@@ -1,103 +1,245 @@
-import Image from "next/image";
+"use client";
+import { Button } from "@/components/ui/button";
+import { Shield, TrendingUp, Users, Clock, Twitter, Github, MessageCircle } from "lucide-react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const Navbar = () => (
+    <header className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-sm border-b border-border">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex h-16 items-center justify-between">
+          <div className="flex items-center gap-4">
+            <svg className="h-8 w-8 text-primary" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="24" cy="24" r="20" stroke="currentColor" strokeWidth="4" />
+            </svg>
+            <h1 className="text-2xl font-bold">YieldFi</h1>
+          </div>
+
+          <nav className="hidden md:flex items-center gap-8">
+            {["About", "How it Works", "Features", "Roadmap"].map((item) => (
+              <a
+                key={item}
+                href={`#${item.toLowerCase().replace(/\s/g, "-")}`}
+                className="text-sm font-medium hover:text-primary transition-colors"
+              >
+                {item}
+              </a>
+            ))}
+          </nav>
+
+          <div className="flex items-center gap-4">
+            <button className="bg-primary hover:bg-primary/90 text-white font-bold py-2 px-4 rounded-lg transition-colors">
+              Launch App
+            </button>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </div>
+    </header>
+  );
+
+  const Hero = () => (
+    <section className="relative rounded-xl overflow-hidden mb-16">
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{
+          backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.7) 100%), url('https://lh3.googleusercontent.com/aida-public/AB6AXuAg16A4S4UIuxDyEJQdbI-METzyEzn10R_IM48kPxkPZ97NZKo2Wo6-tkFdJKILQTAYkZbqOt0nmaMHnMuVJJKZs47I52RxGRJkUWroVSAgcSHZ8VbgRr8i1zXw0chEjjPfJUCTBIOAH9x5WIxo4YBUUTweLuPmC8aiHH77TJ8shg2ubKan5vt7QU_doHQkfrC2W-RMX-Ru2vmuolKKNS9cxOjPEwRKRRYI9YxbbRK6HWmyGeRIQ7zkruDL2UytCiz2YR3KijEmpCYb')",
+        }}
+      ></div>
+      <div className="relative min-h-[480px] flex flex-col items-start justify-end p-8 md:p-12 text-white">
+        <h1 className="text-4xl md:text-6xl font-bold leading-tight max-w-2xl">
+          Unlock the Power of Decentralized Yield
+        </h1>
+        <p className="mt-4 text-lg max-w-2xl text-gray-200">
+          YieldFi empowers the unbanked to access high-yield opportunities through decentralized finance. Stake your digital assets and earn competitive returns.
+        </p>
+        <button className="mt-8 bg-primary hover:bg-primary/90 text-white font-bold py-3 px-6 rounded-lg text-lg transition-colors">
+          Get Started
+        </button>
+      </div>
+    </section>
+  );
+
+  const About = () => (
+    <section className="py-16 text-center" id="about">
+      <h2 className="text-3xl font-bold mb-4">About YieldFi</h2>
+      <p className="max-w-3xl mx-auto text-lg text-muted-foreground">
+        YieldFi is a decentralized platform designed to bridge the gap between traditional finance and DeFi. We provide a secure and user-friendly environment for individuals, particularly those underserved by traditional banking systems, to participate in yield farming and earn competitive returns on their digital assets.
+      </p>
+    </section>
+  );
+
+  const HowItWorks = () => {
+    const [activeTab, setActiveTab] = useState<"unbanked" | "crypto">("unbanked");
+
+    const tabContent = {
+      unbanked: (
+        <>
+          <p>1. <strong>Create an Account:</strong> Sign up with your email and verify your identity.</p>
+          <p>2. <strong>Deposit Assets:</strong> Transfer your digital assets to your YieldFi wallet.</p>
+          <p>3. <strong>Stake and Earn:</strong> Choose from a variety of staking pools and start earning yield immediately.</p>
+          <p>4. <strong>Withdraw Anytime:</strong> Access your staked assets and earned rewards whenever you need them.</p>
+        </>
+      ),
+      crypto: (
+        <>
+          <p>1. <strong>Connect Wallet:</strong> Link your MetaMask, RainbowKit, or other wallet.</p>
+          <p>2. <strong>Select Asset:</strong> Choose from USDC, ETH, or SUI to stake.</p>
+          <p>3. <strong>Approve & Stake:</strong> Approve the transaction and stake on the Hedera network.</p>
+          <p>4. <strong>Mint NFT & Track Rewards:</strong> Receive a yield-bearing NFT that shows real-time growth of your staked assets.</p>
+        </>
+      ),
+    };
+
+    return (
+      <section className="py-16" id="how-it-works">
+        <h2 className="text-3xl font-bold text-center mb-12">How it Works</h2>
+
+        <div className="max-w-3xl mx-auto">
+          <div className="flex items-center justify-center space-x-8 mb-6">
+            {["unbanked", "crypto"].map((tab) => (
+              <div
+                key={tab}
+                className={`cursor-pointer text-lg font-bold ${activeTab === tab
+                    ? "text-primary border-b-2 border-primary"
+                    : "text-muted-foreground border-b-2 border-transparent hover:text-foreground"
+                  }`}
+                onClick={() => setActiveTab(tab as "unbanked" | "crypto")}
+              >
+                {tab === "unbanked" ? "For the Unbanked" : "For Crypto Savvy"}
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-6 text-lg text-muted-foreground space-y-2 relative min-h-[150px]">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeTab}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3 }}
+                className="absolute inset-0"
+              >
+                {tabContent[activeTab]}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          <div className="mt-6 border-t border-border"></div>
+        </div>
+      </section>
+    );
+  };
+
+  const Features = () => {
+    const keyFeatures = [
+      { title: "Secure & Transparent", text: "Your assets are protected by audited smart contracts and transparent protocols.", icon: Shield },
+      { title: "High Yield", text: "Access competitive returns by participating in curated, high-performing yield pools.", icon: TrendingUp },
+      { title: "Community-Driven", text: "Our platform is governed by the community, ensuring fairness and transparency.", icon: Users },
+      { title: "Instant Access", text: "Withdraw your assets and earned rewards at any time, without any lock-up periods.", icon: Clock },
+    ];
+
+    return (
+      <section className="py-16 bg-muted/50 rounded-xl" id="features">
+        <h2 className="text-3xl font-bold text-center mb-12">Key Features</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto px-4">
+          {keyFeatures.map((feature) => {
+            const Icon = feature.icon;
+            return (
+              <div key={feature.title} className="flex items-start gap-4 p-6 border border-border rounded-lg bg-background">
+                <div className="text-primary mt-1">
+                  <Icon size={32} />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
+                  <p className="text-muted-foreground">{feature.text}</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+    );
+  };
+
+  const Roadmap = () => {
+    const roadmapItems = [
+      { title: "Platform Launch", description: "Initial release of the YieldFi platform with core staking features." },
+      { title: "Multi-Chain Support", description: "Expansion to support multiple blockchain networks for increased yield opportunities." },
+      { title: "Governance Integration", description: "Implementation of a decentralized governance system allowing community participation in platform decisions." },
+      { title: "USSD Support", description: "Implementation of a decentralized governance system allowing community participation in platform decisions." },
+    ];
+
+    return (
+      <section className="py-16" id="roadmap">
+        <h2 className="text-3xl font-bold text-center mb-12">Roadmap</h2>
+        <div className="relative max-w-2xl mx-auto">
+          <div className="absolute left-5 top-0 h-full w-0.5 bg-border"></div>
+          {roadmapItems.map((item, index) => (
+            <div key={index} className={`relative pl-12 ${index < roadmapItems.length - 1 ? 'mb-12' : ''}`}>
+              <div className="absolute left-0 top-0 flex items-center justify-center w-10 h-10 rounded-full bg-primary text-white">
+                <span className="text-xl font-bold">{index + 1}</span>
+              </div>
+              <h3 className="text-xl font-bold mb-2">{item.title}</h3>
+              <p className="text-muted-foreground">{item.description}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+    );
+  };
+
+  const Footer = () => (
+    <footer className="bg-muted/50 border-t border-border">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="max-w-md">
+            <h3 className="text-xl font-bold mb-2">Contact Us</h3>
+            <p className="text-muted-foreground mb-4">Have a question? Send us a message.</p>
+            <form className="space-y-4">
+              <textarea
+                className="resize-none w-full px-4 py-3 rounded-lg bg-background border border-border focus:ring-2 focus:ring-primary focus:border-primary transition-colors h-32"
+                placeholder="Your message"
+              ></textarea>
+              <Button type="submit">
+                Send Message
+              </Button>
+            </form>
+          </div>
+          <div className="flex flex-col items-center md:items-end justify-center gap-4">
+            <div className="flex gap-4">
+              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
+                <Twitter size={24} />
+              </a>
+              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
+                <Github size={24} />
+              </a>
+              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
+                <MessageCircle size={24} />
+              </a>
+            </div>
+            <p className="text-sm text-muted-foreground">© 2024 YieldFi. All rights reserved.</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+
+  return (
+    <div className="relative w-full overflow-x-hidden">
+      <div className="flex h-full min-h-screen flex-col">
+        <Navbar />
+        <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <Hero />
+          <About />
+          <HowItWorks />
+          <Features />
+          <Roadmap />
+        </main>
+        <Footer />
+      </div>
     </div>
   );
 }
