@@ -2,7 +2,9 @@
 import { Button } from "@/components/ui/button";
 import { Shield, TrendingUp, Users, Clock, Twitter, Github, MessageCircle } from "lucide-react";
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
+import { Input } from "@/components/ui/input";
+
 
 export default function Home() {
 
@@ -38,7 +40,6 @@ export default function Home() {
       </div>
     </header>
   );
-
   const Hero = () => (
     <section className="relative rounded-xl overflow-hidden mb-16">
       <div
@@ -62,16 +63,26 @@ export default function Home() {
   );
 
   const About = () => (
-    <section className="py-16 text-center" id="about">
-      <h2 className="text-3xl font-bold mb-4">About YieldFi</h2>
-      <p className="max-w-3xl mx-auto text-lg text-muted-foreground">
-        YieldFi is a decentralized platform designed to bridge the gap between traditional finance and DeFi. We provide a secure and user-friendly environment for individuals, particularly those underserved by traditional banking systems, to participate in yield farming and earn competitive returns on their digital assets.
-      </p>
+    <section className="py-16 text-center flex flex-col gap-8" id="about">
+      <div>
+        <h2 className="text-3xl font-bold mb-4">About YieldFi</h2>
+        <p className="max-w-3xl mx-auto text-lg text-muted-foreground">
+          YieldFi is a decentralized platform designed to bridge the gap between traditional finance and DeFi. We provide a secure and user-friendly environment for individuals, particularly those underserved by traditional banking systems, to participate in yield farming and earn competitive returns on their digital assets.
+        </p>
+      </div>
+      <div className="relative h-[400px] w-[90%] max-w-4xl mx-auto overflow-hidden rounded-md border border-border">
+        <Image
+          src="/about.jpeg"
+          alt="staking"
+          fill
+          className="object-contain object-center transition-transform duration-500 scale-120 md:scale-150 md:hover:scale-155 hover:scale-125 "
+        />
+      </div>
     </section>
   );
 
   const HowItWorks = () => {
-    const [activeTab, setActiveTab] = useState<"unbanked" | "crypto">("unbanked");
+    const [activeTab, setActiveTab] = useState("unbanked");
 
     const tabContent = {
       unbanked: (
@@ -95,40 +106,50 @@ export default function Home() {
     return (
       <section className="py-16" id="how-it-works">
         <h2 className="text-3xl font-bold text-center mb-12">How it Works</h2>
-
         <div className="max-w-3xl mx-auto">
-          <div className="flex items-center justify-center space-x-8 mb-6">
-            {["unbanked", "crypto"].map((tab) => (
-              <div
-                key={tab}
-                className={`cursor-pointer text-lg font-bold ${activeTab === tab
-                    ? "text-primary border-b-2 border-primary"
-                    : "text-muted-foreground border-b-2 border-transparent hover:text-foreground"
-                  }`}
-                onClick={() => setActiveTab(tab as "unbanked" | "crypto")}
-              >
-                {tab === "unbanked" ? "For the Unbanked" : "For Crypto Savvy"}
-              </div>
-            ))}
+          <div className="flex border-b border-border mb-8">
+            {["unbanked", "crypto"].map((tab) => {
+              const isActive = activeTab === tab;
+              return (
+                <p
+                  key={tab}
+                  className={`flex-1 py-3 text-lg font-bold border-b-2 transition-all bg-transparent text-center  hover:bg-transparent ${isActive
+                    ? "border-primary text-primary"
+                    : "border-transparent text-muted-foreground hover:text-foreground"
+                    }`}
+                  style={{ transform: 'none' }}
+                  onClick={() => setActiveTab(tab)}
+                >
+                  {tab === "unbanked" ? "For the Unbanked" : "For Crypto Savvy"}
+                </p>
+              );
+            })}
           </div>
 
-          <div className="mt-6 text-lg text-muted-foreground space-y-2 relative min-h-[150px]">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeTab}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.3 }}
-                className="absolute inset-0"
-              >
-                {tabContent[activeTab]}
-              </motion.div>
-            </AnimatePresence>
+          <div className="relative min-h-[150px]">
+            <div
+              key={activeTab}
+              className="text-lg text-muted-foreground space-y-2"
+              style={{
+                animation: 'fadeIn 0.3s ease-in-out'
+              }}
+            >
+              {tabContent[activeTab]}
+            </div>
           </div>
-
-          <div className="mt-6 border-t border-border"></div>
         </div>
+        <style jsx>{`
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
       </section>
     );
   };
@@ -148,7 +169,7 @@ export default function Home() {
           {keyFeatures.map((feature) => {
             const Icon = feature.icon;
             return (
-              <div key={feature.title} className="flex items-start gap-4 p-6 border border-border rounded-lg bg-background">
+              <div key={feature.title} className="flex items-start gap-4 p-6 border border-border rounded-lg bg-background flex-col">
                 <div className="text-primary mt-1">
                   <Icon size={32} />
                 </div>
@@ -191,25 +212,47 @@ export default function Home() {
     );
   };
 
-  const Footer = () => (
-    <footer className="bg-muted/50 border-t border-border">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="max-w-md">
-            <h3 className="text-xl font-bold mb-2">Contact Us</h3>
-            <p className="text-muted-foreground mb-4">Have a question? Send us a message.</p>
+  const ContactUs = () => (
+    <div className="flex flex-col justify-center items-center bg-muted/50">
+      <div className="flex flex-col justify-center rounded w-full border border-border py-4 max-w-5xl px-6">
+        <h1 className="text-3xl font-bold text-center w-full py-6">Contact Us</h1>
+        <div className="flex flex-col md:flex-row gap-6 px-3 justify-center items-center w-full">
+          <aside className="relative min-h-[300px] max-h-[400px] mx-auto overflow-hidden rounded-md border border-border w-full max-w-[400px]">
+            <Image
+              src="/Messages.jpeg"
+              alt="staking"
+              fill
+              className="object-contain object-cover transition-transform duration-500 md:hover:scale-115 hover:scale-105"
+            />
+          </aside>
+          <div className="w-full max-w-[400px]">
+            <p className="text-muted-foreground mb-4 text-center md:text-left">
+              Have a question? Send us a message.
+            </p>
             <form className="space-y-4">
+              <Input type="email" placeholder="Your email@mail.com"
+                className="w-full px-4 py-3 rounded-lg bg-background border border-border focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+              />
               <textarea
                 className="resize-none w-full px-4 py-3 rounded-lg bg-background border border-border focus:ring-2 focus:ring-primary focus:border-primary transition-colors h-32"
                 placeholder="Your message"
               ></textarea>
-              <Button type="submit">
+              <Button type="submit" >
                 Send Message
               </Button>
             </form>
           </div>
+        </div>
+      </div>
+    </div>
+
+  )
+  const Footer = () => (
+    <footer className="bg-muted/50 border-t border-border">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="flex flex-col items-center md:items-end justify-center gap-4">
-            <div className="flex gap-4">
+            <div className="flex gap-4 footerCard">
               <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
                 <Twitter size={24} />
               </a>
@@ -220,7 +263,7 @@ export default function Home() {
                 <MessageCircle size={24} />
               </a>
             </div>
-            <p className="text-sm text-muted-foreground">© 2024 YieldFi. All rights reserved.</p>
+            <p className="text-[12px] text-muted-foreground">&copy; {new Date().getFullYear()} YieldFi. All rights reserved.</p>
           </div>
         </div>
       </div>
@@ -237,6 +280,7 @@ export default function Home() {
           <HowItWorks />
           <Features />
           <Roadmap />
+          <ContactUs />
         </main>
         <Footer />
       </div>

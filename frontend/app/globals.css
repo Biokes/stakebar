@@ -131,3 +131,10 @@ button {
 html {
   scroll-behavior: smooth;
 }
+.footerCard > a {
+  @apply transition-transform duration-300;
+}
+
+.footerCard > a:hover {
+  @apply scale-105;
+}
