@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Shield, TrendingUp, Users, Clock, Twitter, Github, MessageCircle } from "lucide-react";
-import { useState } from "react";
+import { JSX, useState } from "react";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import ModeToggle from "@/components/ui/modeToggle";
@@ -33,15 +33,16 @@ export default function Home() {
           </nav>
 
           <div className="flex items-center gap-4">
-            <button className="bg-primary hover:bg-primary/90 text-white font-bold py-2 px-4 rounded-lg transition-colors">
+            <Button className="hidden md:flex text-xs">
               Launch App
-            </button>
+            </Button>
             <ModeToggle />
           </div>
         </div>
       </div>
     </header>
   );
+
   const Hero = () => (
     <section className="relative rounded-xl overflow-hidden mb-16">
       <div
@@ -72,7 +73,7 @@ export default function Home() {
           YieldFi is a decentralized platform designed to bridge the gap between traditional finance and DeFi. We provide a secure and user-friendly environment for individuals, particularly those underserved by traditional banking systems, to participate in yield farming and earn competitive returns on their digital assets.
         </p>
       </div>
-      <div className="relative h-[400px] w-[90%] max-w-4xl mx-auto overflow-hidden rounded-md border border-border">
+      <div className="relative h-[450px] max-w-[550px] w-[90%] max-w-4xl mx-auto overflow-hidden rounded-md border border-border">
         <Image
           src="/about.jpeg"
           alt="staking"
@@ -85,8 +86,8 @@ export default function Home() {
 
   const HowItWorks = () => {
     const [activeTab, setActiveTab] = useState("unbanked");
-
-    const tabContent = {
+    type TabKey = "unbanked" | "crypto";
+    const tabContent: Record<TabKey, JSX.Element> = {
       unbanked: (
         <>
           <p>1. <strong>Create an Account:</strong> Sign up with your email and verify your identity.</p>
@@ -98,7 +99,7 @@ export default function Home() {
       crypto: (
         <>
           <p>1. <strong>Connect Wallet:</strong> Link your MetaMask, RainbowKit, or other wallet.</p>
-          <p>2. <strong>Select Asset:</strong> Choose from USDC, ETH, or SUI to stake.</p>
+          <p>2. <strong>Select Asset:</strong> Choose from Your assets to stake.</p>
           <p>3. <strong>Approve & Stake:</strong> Approve the transaction and stake on the Hedera network.</p>
           <p>4. <strong>Mint NFT & Track Rewards:</strong> Receive a yield-bearing NFT that shows real-time growth of your staked assets.</p>
         </>
