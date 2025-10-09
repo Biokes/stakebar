@@ -10,8 +10,8 @@ jobs:
     runs-on: ubuntu-latest
 
     defaults:
-      runs: 
-        working-director: ./frontend
+      run: 
+        working-directory: ./frontend
 
     steps:
       - name: checkout repository
@@ -20,7 +20,7 @@ jobs:
       - name: setup Node      
         uses: actions/setup-node@v4
         with:
-          node-version: 21
+          node-version: 20
           cache: 'pnpm'
 
       - name: setup pnpm
@@ -29,12 +29,18 @@ jobs:
           version: 9
         
       - name: install depenecies
-        uses: pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: build project
-        uses: pnpm run build
+        run: pnpm run build
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-build
+          path: ./frontend/.next  
         
-      - name: 🚀 Deploy to Vercel
+      - name: Deploy to Vercel
         uses: amondnet/vercel-action@v25
         with:
           vercel-token: ${{ secrets.VERCEL_YIELDIFY_TOKEN }}
