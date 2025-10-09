@@ -4,6 +4,7 @@ import { Shield, TrendingUp, Users, Clock, Twitter, Github, MessageCircle } from
 import { useState } from "react";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
+import ModeToggle from "@/components/ui/modeToggle";
 
 
 export default function Home() {
@@ -35,6 +36,7 @@ export default function Home() {
             <button className="bg-primary hover:bg-primary/90 text-white font-bold py-2 px-4 rounded-lg transition-colors">
               Launch App
             </button>
+            <ModeToggle />
           </div>
         </div>
       </div>
