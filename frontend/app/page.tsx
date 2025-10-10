@@ -216,8 +216,8 @@ export default function Home() {
   };
 
   const ContactUs = () => (
-    <div className="flex flex-col justify-center items-center bg-muted/50">
-      <div className="flex flex-col justify-center rounded w-full border border-border py-4 max-w-5xl px-6">
+    <div className="flex flex-col justify-center items-center ">
+      <div className="flex flex-col justify-center rounded w-[90%] border border-border py-4 px-6 bg-muted/50">
         <h1 className="text-3xl font-bold text-center w-full py-6">Contact Us</h1>
         <div className="flex flex-col md:flex-row gap-6 px-3 justify-center items-center w-full">
           <aside className="relative min-h-[300px] max-h-[400px] mx-auto overflow-hidden rounded-md border border-border w-full max-w-[400px]">
@@ -234,10 +234,10 @@ export default function Home() {
             </p>
             <form className="space-y-4">
               <Input type="email" placeholder="Your email@mail.com"
-                className="w-full px-4 py-3 rounded-lg bg-background border border-border focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+                className="w-full px-4 py-3 rounded-lg bg-background border border-border focus:ring-1 focus:ring-primary focus:border-primary transition-colors"
               />
               <textarea
-                className="resize-none w-full px-4 py-3 rounded-lg bg-background border border-border focus:ring-2 focus:ring-primary focus:border-primary transition-colors h-32"
+                className="resize-none w-full px-4 py-3 rounded-lg bg-background border border-border focus:ring-1 focus:ring-primary focus:border-primary transition-colors h-32 dark:bg-muted/50"
                 placeholder="Your message"
               ></textarea>
               <Button type="submit" >
