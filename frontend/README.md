@@ -43,8 +43,7 @@ The application leverages account abstraction for flexible, programmable wallet 
 - USDC
 - ETH
 - DAI
-- SUI
-- Other assets bridged from Ethereum and Polygon
+- Other assets bridged from Ethereum
 
 
 ## User Workflow

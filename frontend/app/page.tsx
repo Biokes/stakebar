@@ -5,7 +5,7 @@ import { JSX, useState } from "react";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import ModeToggle from "@/components/ui/modeToggle";
-
+import WalletConfirmation from "@/components/commons/walletConfimation";
 
 export default function Home() {
 
@@ -43,12 +43,11 @@ export default function Home() {
     </header>
   );
 
-  const Hero = () => (
+  const Hero = ({isOpen , setIsOpen}: WalletCOnfirmationProps ) => (
     <section className="relative rounded-xl overflow-hidden mb-16">
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{
-          backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.7) 100%), url('https://lh3.googleusercontent.com/aida-public/AB6AXuAg16A4S4UIuxDyEJQdbI-METzyEzn10R_IM48kPxkPZ97NZKo2Wo6-tkFdJKILQTAYkZbqOt0nmaMHnMuVJJKZs47I52RxGRJkUWroVSAgcSHZ8VbgRr8i1zXw0chEjjPfJUCTBIOAH9x5WIxo4YBUUTweLuPmC8aiHH77TJ8shg2ubKan5vt7QU_doHQkfrC2W-RMX-Ru2vmuolKKNS9cxOjPEwRKRRYI9YxbbRK6HWmyGeRIQ7zkruDL2UytCiz2YR3KijEmpCYb')",
+      <div className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.7) 100%),
+           url('https://lh3.googleusercontent.com/aida-public/AB6AXuAg16A4S4UIuxDyEJQdbI-METzyEzn10R_IM48kPxkPZ97NZKo2Wo6-tkFdJKILQTAYkZbqOt0nmaMHnMuVJJKZs47I52RxGRJkUWroVSAgcSHZ8VbgRr8i1zXw0chEjjPfJUCTBIOAH9x5WIxo4YBUUTweLuPmC8aiHH77TJ8shg2ubKan5vt7QU_doHQkfrC2W-RMX-Ru2vmuolKKNS9cxOjPEwRKRRYI9YxbbRK6HWmyGeRIQ7zkruDL2UytCiz2YR3KijEmpCYb')`,
         }}
       ></div>
       <div className="relative min-h-[480px] flex flex-col items-start justify-end p-8 md:p-12 text-white">
@@ -58,7 +57,9 @@ export default function Home() {
         <p className="mt-4 text-lg max-w-2xl text-gray-200">
           YieldFi empowers the unbanked to access high-yield opportunities through decentralized finance. Stake your digital assets and earn competitive returns.
         </p>
-        <button className="mt-8 bg-primary hover:bg-primary/90 text-white font-bold py-3 px-6 rounded-lg text-lg transition-colors">
+        <button
+         className="mt-8 bg-primary hover:bg-primary/90 text-white font-bold py-3 px-6 rounded-lg text-lg transition-colors"
+          onClick={()=>setIsOpen(!isOpen)}>
           Get Started
         </button>
       </div>
@@ -272,13 +273,15 @@ export default function Home() {
       </div>
     </footer>
   );
+  
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
     <div className="relative w-full overflow-x-hidden">
       <div className="flex h-full min-h-screen flex-col">
         <Navbar />
         <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <Hero />
+          <Hero isOpen={isOpen} setIsOpen ={setIsOpen} />
           <About />
           <HowItWorks />
           <Features />
@@ -287,6 +290,7 @@ export default function Home() {
         </main>
         <Footer />
       </div>
+      <WalletConfirmation isOpen={isOpen} setIsOpen={setIsOpen} />
     </div>
   );
 }
