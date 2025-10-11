@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import ModeToggle from "@/components/ui/modeToggle";
 import WalletConfirmation from "@/components/commons/walletConfimation";
+import { WalletConfirmationProps } from "@/lib/types";
 
 export default function Home() {
 
@@ -43,7 +44,7 @@ export default function Home() {
     </header>
   );
 
-  const Hero = ({isOpen , setIsOpen}: WalletCOnfirmationProps ) => (
+  const Hero = ({isOpen , setIsOpen}: WalletConfirmationProps ) => (
     <section className="relative rounded-xl overflow-hidden mb-16">
       <div className="absolute inset-0 bg-cover bg-center"
         style={{ backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.7) 100%),
@@ -86,8 +87,8 @@ export default function Home() {
   );
 
   const HowItWorks = () => {
-    const [activeTab, setActiveTab] = useState("unbanked");
     type TabKey = "unbanked" | "crypto";
+    const [activeTab, setActiveTab] = useState<TabKey>("unbanked");
     const tabContent: Record<TabKey, JSX.Element> = {
       unbanked: (
         <>
@@ -112,7 +113,7 @@ export default function Home() {
         <h2 className="text-3xl font-bold text-center mb-12">How it Works</h2>
         <div className="max-w-3xl mx-auto">
           <div className="flex border-b border-border mb-8">
-            {["unbanked", "crypto"].map((tab) => {
+            {(["unbanked", "crypto"] as const ).map((tab) => {
               const isActive = activeTab === tab;
               return (
                 <p
@@ -251,6 +252,7 @@ export default function Home() {
     </div>
 
   )
+  
   const Footer = () => (
     <footer className="bg-muted/50 border-t border-border">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
