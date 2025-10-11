@@ -1,30 +1,11 @@
 "use client";
 
-import { ReactNode, useEffect, useState, createContext, useContext, useCallback } from 'react';
+import { useEffect, useState, createContext, useContext, useCallback } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import {
-  HederaSessionEvent,
-  HederaJsonRpcMethod,
-  DAppConnector,
-  HederaChainId,
-} from '@hashgraph/hedera-wallet-connect';
+import { HederaSessionEvent, HederaJsonRpcMethod, DAppConnector, HederaChainId } from '@hashgraph/hedera-wallet-connect';
 import { LedgerId } from '@hashgraph/sdk';
 import { APP_NAME, PROJECT_ID } from '@/lib/utils';
-
-
-interface WalletEvent {
-  name: string;
-  data: {
-    topic?: string;
-    [key: string]: unknown;
-  };
-}
-
-interface DAppConnectorWithEvents extends DAppConnector {
-  events$?: {
-    subscribe: (callback: (event: WalletEvent) => void) => { unsubscribe: () => void };
-  };
-}
+import { ProvidersProps, type DAppConnectorContext } from '@/lib/types';
 
 const queryClient = new QueryClient();
 
@@ -32,25 +13,13 @@ const metadata = {
   name: APP_NAME,
   description: 'Bringing defi to everyone',
   url: '',
-  icons: ['https'],
-};
-
-type DAppConnectorContext = {
-  dAppConnector: DAppConnector | null;
-  userAccountId: string | null;
-  sessionTopic: string | null;
-  disconnect: (() => Promise<void>) | null;
-  refresh: (() => void) | null;
+  icons: [''],
 };
 
 const DAppConnectorContext = createContext<DAppConnectorContext | null>(null);
 export const useDAppConnector = () => useContext(DAppConnectorContext);
 
-type ClientProvidersProps = {
-  children: ReactNode;
-};
-
-export function ClientProviders({ children }: ClientProvidersProps) {
+export function ClientProviders({ children }: ProvidersProps) {
   const [dAppConnector, setDAppConnector] = useState<DAppConnector | null>(null);
   const [isReady, setIsReady] = useState(false);
   const [userAccountId, setUserAccountId] = useState<string | null>(null);
@@ -108,30 +77,28 @@ export function ClientProviders({ children }: ClientProvidersProps) {
       [HederaChainId.Mainnet, HederaChainId.Testnet],
     );
     await connector.init();
-    if (isMounted) {
-      setDAppConnector(connector);
-      setIsReady(true);
-    }
-  }, [])
+    setDAppConnector(connector);
+    setIsReady(true);
+  }, []);
 
   useEffect(() => {
-    setMounted(true);
+    setMounted(!isMounted);
     const init = () => connect()
     init().catch(console.log);
     return () => {
-      setMounted(false);
+      setMounted(!isMounted);
     };
   }, [connect]);
 
   if (!isReady)
     return (
       <div style={{ color: 'white', textAlign: 'center', marginTop: '2rem' }}>
-        Loading wallet...
+        Loading ...
       </div>
     );
 
   return (
-    <DAppConnectorContext.Provider value={{ dAppConnector, userAccountId, sessionTopic, disconnect, refresh }}>
+    <DAppConnectorContext.Provider value={{ dAppConnector, userAccountId, sessionTopic, disconnect, refresh, connect }}>
       <QueryClientProvider client={queryClient}>
         {children}
       </QueryClientProvider>

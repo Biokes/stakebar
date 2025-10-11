@@ -4,24 +4,25 @@ import { useDAppConnector } from '../clients-providers';
 
 
 export function useWalletConnect(): UseWalletConnectReturn {
-  const context = useDAppConnector();
+    const context = useDAppConnector();
 
-  if (!context) {
-    throw new Error('useWalletConnect must be used within ClientProviders');
-  }
+    if (!context) {
+        throw new Error('useWalletConnect must be used within ClientProviders');
+    }
 
-  const { dAppConnector, userAccountId, sessionTopic, disconnect, refresh } = context;
+    const { dAppConnector, userAccountId, sessionTopic, disconnect, refresh, connect } = context;
 
-  const isConnected = !!userAccountId && !!sessionTopic;
-  const isLoading = dAppConnector === null;
+    const isConnected = !!userAccountId && !!sessionTopic;
+    const isLoading = dAppConnector === null;
 
-  return {
-    dAppConnector,
-    userAccountId,
-    sessionTopic,
-    disconnect: disconnect || (async () => {}),
-    refresh: refresh || (() => {}),
-    isConnected,
-    isLoading,
-  };
+    return {
+        dAppConnector,
+        userAccountId,
+        sessionTopic,
+        disconnect: disconnect || (async () => { }),
+        refresh: refresh || (() => { }),
+        isConnected,
+        isLoading,
+        connect
+    };
 }
