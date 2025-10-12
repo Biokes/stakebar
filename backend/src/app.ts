@@ -10,5 +10,5 @@ app.use(express.json());
 app.get("/", (res: Response) => {
   res.json({ message: "YieldFi Backend is running 🚀" });
 });
-
+app.post("/email/", emailRoutes)
 module.exports = app;
