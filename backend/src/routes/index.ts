@@ -4,7 +4,6 @@ import { UserService } from "../services/userService";
 
 const userRepos: UserRepository = new UserRepository();
 const userService: UserService = new UserService(userRepos);
-const userControlller: UserController = new UserController(userService);
+const userController: UserController = new UserController(userService);
 
-
-export { userControlller }
+export { userController }

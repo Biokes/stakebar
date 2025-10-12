@@ -11,7 +11,4 @@ const postgres = new Pool({
 });
 
 
-module.exports = {
-    postgres
-}
-
+module.exports = { postgres }
