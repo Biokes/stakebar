@@ -2,7 +2,7 @@
   "name": "yieldfi_backend_service",
   "version": "1.0.0",
   "description": "A backend server for YieldFi protocol",
-  "main": "index.js",
+  "main": "./src/server.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "docker compose up -d ts-node-dev src/server.ts",

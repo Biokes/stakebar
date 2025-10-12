@@ -10,8 +10,9 @@ datasource db {
 
 model User{
   email String @unique
-  id Int @id
+  id Int @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   pin String?
+  isVerified Boolean  @default(false)
 }

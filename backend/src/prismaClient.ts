@@ -1,7 +1,7 @@
-import { PrismaClient } from "./generated/prisma";
+const { PrismaClient } = require("@prisma/client");
 
 declare global {
-  var prisma: PrismaClient | undefined;
+  var prisma: InstanceType<typeof PrismaClient> | undefined;
 }
 
 const prisma =
@@ -12,6 +12,4 @@ const prisma =
 
 if (process.env.NODE_ENV !== "production") global.prisma = prisma;
 
-module.exports = {
-    prisma
-}
+module.exports = { prisma };
