@@ -39,7 +39,7 @@ export default function WalletConfirmation({ isOpen, setIsOpen }: WalletConfirma
                 <DialogHeader>
                     <DialogTitle className="py-4">Choose Connection Method</DialogTitle>
                     <DialogDescription>
-                        Select how you'd like to connect
+                        Select how you&apos;d like to connect
                     </DialogDescription>
                 </DialogHeader>
                 <div className="space-y-3 mt-6 flex flex-col gap-4">

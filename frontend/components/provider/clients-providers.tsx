@@ -1,17 +1,17 @@
 "use client";
 
-import { useEffect, useState, createContext, useContext, useCallback } from 'react';
+import { useEffect, useState, createContext, useContext, useCallback, useMemo } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { HederaSessionEvent, HederaJsonRpcMethod, DAppConnector, HederaChainId } from '@hashgraph/hedera-wallet-connect';
 import { LedgerId } from '@hashgraph/sdk';
-import { APP_NAME, PROJECT_ID } from '@/lib/utils';
-import { ProvidersProps, type DAppConnectorContext } from '@/lib/types';
+import { APP_NAME, PROJECT_ID, APP_DESCRIPTION } from '@/lib/utils';
+import { DAppConnectorWithEvents, ProvidersProps, WalletEvent, type DAppConnectorContext } from '@/lib/types';
 
 const queryClient = new QueryClient();
 
 const metadata = {
   name: APP_NAME,
-  description: 'Bringing defi to everyone',
+  description: APP_DESCRIPTION,
   url: '',
   icons: [''],
 };
@@ -24,7 +24,6 @@ export function ClientProviders({ children }: ProvidersProps) {
   const [isReady, setIsReady] = useState(false);
   const [userAccountId, setUserAccountId] = useState<string | null>(null);
   const [sessionTopic, setSessionTopic] = useState<string | null>(null);
-  const [isMounted, setMounted] = useState<boolean>(false);
 
   useEffect(() => {
     if (!dAppConnector) return;
@@ -52,43 +51,67 @@ export function ClientProviders({ children }: ProvidersProps) {
     return () => subscription && subscription.unsubscribe();
   }, [dAppConnector]);
 
-  const disconnect = async () => {
+  const disconnect = useCallback(async () => {
     if (dAppConnector && sessionTopic) {
       await dAppConnector.disconnect(sessionTopic);
       setUserAccountId(null);
       setSessionTopic(null);
     }
-  };
+  }, [dAppConnector, sessionTopic]);
 
-  const refresh = () => {
+  // Refresh function
+  const refresh = useCallback(() => {
     if (dAppConnector) {
       setUserAccountId(dAppConnector.signers?.[0]?.getAccountId().toString() ?? null);
       setSessionTopic(dAppConnector.signers?.[0]?.topic ?? null);
     }
-  };
+  }, [dAppConnector]);
 
   const connect = useCallback(async () => {
-    const connector = new DAppConnector(
-      metadata,
-      LedgerId.TESTNET,
-      PROJECT_ID,
-      Object.values(HederaJsonRpcMethod),
-      [HederaSessionEvent.ChainChanged, HederaSessionEvent.AccountsChanged],
-      [HederaChainId.Mainnet, HederaChainId.Testnet],
-    );
-    await connector.init();
-    setDAppConnector(connector);
-    setIsReady(true);
-  }, []);
+    if (dAppConnector) {
+      await dAppConnector.openModal();
+      refresh();
+    }
+  }, [dAppConnector, refresh]);
 
   useEffect(() => {
-    setMounted(!isMounted);
-    const init = () => connect()
-    init().catch(console.log);
-    return () => {
-      setMounted(!isMounted);
+    let isMounted = true;
+
+    const init = async () => {
+      try {
+        const connector = new DAppConnector(
+          metadata,
+          LedgerId.TESTNET,
+          PROJECT_ID,
+          Object.values(HederaJsonRpcMethod),
+          [HederaSessionEvent.ChainChanged, HederaSessionEvent.AccountsChanged],
+          [HederaChainId.Mainnet, HederaChainId.Testnet],
+        );
+        await connector.init();
+        if (isMounted) {
+          setDAppConnector(connector);
+          setIsReady(true);
+        }
+      } catch (error) {
+        console.error('Failed to initialize connector:', error);
+      }
     };
-  }, [connect]);
+
+    init();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const value = useMemo(() => ({
+    dAppConnector,
+    userAccountId,
+    sessionTopic,
+    disconnect,
+    refresh,
+    connect,
+  }), [dAppConnector, userAccountId, sessionTopic, disconnect, refresh, connect]);
 
   if (!isReady)
     return (
@@ -98,7 +121,7 @@ export function ClientProviders({ children }: ProvidersProps) {
     );
 
   return (
-    <DAppConnectorContext.Provider value={{ dAppConnector, userAccountId, sessionTopic, disconnect, refresh, connect }}>
+    <DAppConnectorContext.Provider value={value}>
       <QueryClientProvider client={queryClient}>
         {children}
       </QueryClientProvider>

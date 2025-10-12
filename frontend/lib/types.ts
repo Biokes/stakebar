@@ -7,7 +7,7 @@ export interface WalletConfirmationProps {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 export interface UseWalletConnectReturn {
-  dAppConnector: any;
+  dAppConnector:  DAppConnector | null;
   userAccountId: string | null;
   sessionTopic: string | null;
   disconnect: () => Promise<void>;
