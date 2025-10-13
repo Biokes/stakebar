@@ -10,3 +10,9 @@ export interface RegisterDTO {
 //   pin: boolean| null;
 //   isVerified: boolean;
 // }
+
+export interface UserDTO {
+  email: string;
+  id: number;
+  isVerified: boolean;
+}
