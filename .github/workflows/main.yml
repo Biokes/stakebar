@@ -45,6 +45,3 @@ jobs:
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           working-directory: ./frontend
 
-# jobs:
-#   build:
-#     runs-on: ubuntu-latest

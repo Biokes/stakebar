@@ -3,6 +3,7 @@ import { UserService } from "../services/userService";
 
 class UserController {
   private userService: UserService;
+    
   constructor(userService: UserService) {
     this.userService = userService;
   }
@@ -20,6 +21,7 @@ class UserController {
   public async verify(req: Request, res: Response) {
     const { email } = req.params;
     this.validateEmail(res, email);
+      
   }
 
   private async validateEmail(res: Response, email?: string) {
