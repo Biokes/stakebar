@@ -14,7 +14,7 @@ class UserController {
     return res.status(200).json({
       success: true,
       message: "Successful account creation",
-      data: "no data",
+      data: "",
     });
   }
 

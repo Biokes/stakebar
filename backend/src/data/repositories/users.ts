@@ -1,7 +1,7 @@
-// import type models = require("../models");
+import { User } from "../../generated/prisma";
 
 class UserRepository {
-  async create(email: string) {
+  async create(email: string):  Promise<User> {
     return prisma.user.create({
       data: {
         email: email,
@@ -9,7 +9,7 @@ class UserRepository {
     });
   }
 
-  async findByEmail(email: string) {
+  async findByEmail(email: string): Promise<User | null> {
     return prisma.user.findFirst({
       where: {
         email: {

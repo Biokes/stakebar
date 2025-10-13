@@ -1,6 +1,7 @@
+
 class YeildFiException extends Error {
-    private errorMessage: string;
-    private description: string;
+    private readonly errorMessage: string;
+    private readonly description: string;
     constructor(errorMessage: string, description: string) {
         super(errorMessage)
         this.description = description;
