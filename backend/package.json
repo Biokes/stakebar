@@ -5,7 +5,9 @@
   "main": "./src/server.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "docker compose up -d ts-node-dev src/server.ts",
+    "dev": "pnpm run dev:db && pnpm run server:dev",
+    "dev:db": "docker compose up -d && wait-on tcp:5432 && pnpm exec prisma db push",
+    "server:dev": "ts-node-dev src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js"
   },
@@ -17,9 +19,9 @@
     "@prisma/client": "^6.17.1",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
-    "nodemailer": "^7.0.9",
-    "prisma": "^6.17.1",
-    "resend": "^6.1.2"
+    "reflect-metadata": "^0.2.2",
+    "resend": "^6.1.2",
+    "typeorm": "^0.3.27"
   },
   "devDependencies": {
     "@types/express": "^5.0.3",

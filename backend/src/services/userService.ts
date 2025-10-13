@@ -1,7 +1,7 @@
 import { UserDTO } from "./../data/models/index";
 import { UserRepository } from "../data/repositories/users";
 import { YeildFiException } from "../exception/index.error";
-import { User } from "../generated/prisma/client";
+import { User } from "../data/models/user";
 import { MailService } from "./mail.service";
 
 class UserService {
