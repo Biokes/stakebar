@@ -1,7 +1,8 @@
 const express = require("express");
 const dotenv = require("dotenv");
-const emailRouter = require("./routes/email")
 import type { Response } from "express";
+import { userRouter } from "./routes/user.route";
+import { handleError } from "./controller/advice";
 
 dotenv.config();
 
@@ -11,5 +12,8 @@ app.use(express.json());
 app.get("/", (res: Response) => {
   res.json({ message: "YieldFi Backend is running 🚀" });
 });
-app.post("/email/", emailRouter)
-module.exports = app;
+app.use("/users", userRouter)
+
+app.use(handleError);
+
+export { app };

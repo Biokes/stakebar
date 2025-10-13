@@ -1,53 +1,21 @@
-const app = require("./app");
+import { app } from "./app";
+import { PrismaClient } from "./generated/prisma";
 
 const PORT = process.env.PORT;
+const prisma = new PrismaClient();
 
-app.listen(PORT, () => {
-  console.log(`✅ Server is running on http://localhost:${PORT}`);
-});
+async function startServer() {
+  try {
+    await prisma.$connect();
+    console.log('✅ Connected to PostgreSQL');
+  } catch (error) {
+    console.error('❌ Could not connect to database:', error);
+    process.exit(1);
+  }
 
-// import express from 'express';
-// import { PrismaClient } from '@prisma/client';
-// import { execSync } from 'child_process';
+  app.listen(PORT, () => {
+    console.log(`✅ Server is running on http://localhost:${PORT}`);
+  });
+}
 
-// const app = express();
-// const prisma = new PrismaClient();
-
-// // Auto-sync database on startup
-// async function initializeDatabase() {
-//   try {
-//     console.log('🔄 Syncing database schema...');
-    
-//     execSync('npx prisma db push --skip-generate', { 
-//       stdio: 'inherit',
-//       env: { ...process.env }
-//     });
-    
-//     console.log('✅ Database synced successfully');
-//   } catch (error) {
-//     console.error('❌ Database sync failed:', error);
-//     process.exit(1);
-//   }
-// }
-
-// async function startServer() {
-//   await initializeDatabase();
-//   try {
-//     await prisma.$queryRaw`SELECT 1`;
-//     console.log('✅ Connected to PostgreSQL');
-//   } catch (error) {
-//     console.error('❌ Failed to connect to PostgreSQL:', error);
-//     process.exit(1);
-//   }
-
-//   app.get('/\', (req, res) => {
-//     res.json({ status: 'ok', message: 'Server is running' });
-//   });
-
-//   const PORT = process.env.PORT || 3000;
-//   app.listen(PORT, () => {
-//     console.log(`🚀 Server running on port ${PORT}`);
-//   });
-// }
-
-// startServer();
+startServer();

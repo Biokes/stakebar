@@ -1,27 +1,42 @@
 import { Request, Response } from "express";
 import { UserService } from "../services/userService";
+import { UserDTO } from "../data/models";
 
 class UserController {
   private userService: UserService;
-    
+
   constructor(userService: UserService) {
     this.userService = userService;
   }
+
   public async register(req: Request, res: Response) {
     const { email } = req.params;
-    this.validateEmail(res, email);
-    this.userService.createUser(email!.toLowerCase());
-    return res.status(200).json({
+    await this.validateEmail(res, email?.toLowerCase());
+    const user = await this.userService.createUser(email!.toLowerCase());
+    return res.status(201).json({
       success: true,
       message: "Successful account creation",
-      data: "",
+      data: user,
     });
   }
 
   public async verify(req: Request, res: Response) {
     const { email } = req.params;
-    this.validateEmail(res, email);
-      
+    await this.validateEmail(res, email);
+    const user: UserDTO = await this.userService.verify(email?.toLowerCase() as string);
+    return res.status(200).json({
+      success: true,
+      message: "email successfully verified",
+      data: user,
+    });
+  }
+
+  public async isVerifiedEmail(req: Request, res: Response) {
+    const { email } = req.params;
+    await this.validateEmail(res, email);
+    return await this.userService.isVerifiedEmail(
+      email?.toLowerCase() as string
+    );
   }
 
   private async validateEmail(res: Response, email?: string) {
@@ -29,11 +44,10 @@ class UserController {
       return res.status(400).json({
         success: false,
         message: "Email is required",
-        data: "no data",
+        data: "",
       });
     }
   }
 }
-
 
 export { UserController };
