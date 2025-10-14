@@ -34,11 +34,26 @@ class UserController {
   public async isVerifiedEmail(req: Request, res: Response) {
     const { email } = req.params;
     await this.validateEmail(res, email);
-    return await this.userService.isVerifiedEmail(
+    const isVerified =  await this.userService.isVerifiedEmail(
       email?.toLowerCase() as string
     );
+    return res.status(200).json({
+      sucesss: true,
+      message:"",
+      data: isVerified
+    })
   }
-
+  
+  public async getUser(req: Request, res: Response) { 
+    const { email } = req.params;
+    await this.validateEmail(res, email)
+    const user = this.userService.getUserByEmail(email!)
+    return res.status(200).json({
+      success: true,
+      data: user,
+      message :'success'
+    })
+  }
   private async validateEmail(res: Response, email?: string) {
     if (!email || email.trim().length === 0) {
       return res.status(400).json({

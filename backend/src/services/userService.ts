@@ -56,8 +56,8 @@ class UserService {
 
   public async isVerifiedEmail(email: string): Promise<boolean> {
     const user = await this.userRepository.findByEmail(email);
-    if (!user) throw new YeildFiException("Email does not Exist");
-    return user.isVerified;
+    return !user || !user.isVerified;
+
   }
 }
 
