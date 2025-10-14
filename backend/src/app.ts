@@ -9,8 +9,9 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
-app.get("/api/v2", (res: Response) => {
-  res.json({ message: "YieldFi Backend is running 🚀" });
+app.get("/api/v1", (req: Request, res: Response) => {
+  console .log("testing main: {===", req," ===}")
+  res.status(200).json({ message: "YieldFi Backend is running 🚀" });
 });
 app.use("/users", userRouter)
 
