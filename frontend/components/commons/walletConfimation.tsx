@@ -10,6 +10,7 @@ import { Label } from '@/components/ui/label';
 import { useWhatsappConnect } from "../provider/hooks/useWhatsappConnect";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { BASE_URL } from "@/lib/utils";
 
 
 export default function WalletConfirmation({ isOpen, setIsOpen }: WalletConfirmationProps) {
@@ -23,25 +24,37 @@ export default function WalletConfirmation({ isOpen, setIsOpen }: WalletConfirma
     const handleEmailSubmit = async () => {
         setError("");
         setIsLoading(true);
+
         try {
-            const data: Response = await fetch(`http://localhost:5000/api/v1/users/isVerified/${email}`, {
+            const res = await fetch(`${BASE_URL}users/isVerified/${email}`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-            })
-            const response: ApiResponse<boolean> = await data.json();
+            });
+
+            const response: ApiResponse<boolean> = await res.json();
+
             if (response.success) {
                 if (response.data) {
-                    toast.success("welcome back");
-                    router.push("/home")
+                    toast.success("Welcome back!");
+                    router.push("/home");
                 } else {
-                    await fetch(`http://localhost:5000/api/v1/users/register/${email}`, {
+                    const registerRes = await fetch(`${BASE_URL}users/register/${email}`, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
-                    })
-                    toast.error("Email does not exist")
+                    });
+                    const registerData: ApiResponse<boolean> = await registerRes.json();
+                    console.log("resgister Data: ", registerData)
+                    if (registerData.success) {
+                        toast.success("Please check your email for verification");
+                    } else {
+                        toast.error(registerData.message || "check your emaiil for verification link");
+                    }
                 }
+            } else {
+                toast.error(response.message || "Verification check failed");
             }
         } catch (err) {
+            console.error("Error:", err);
             setError(err instanceof Error ? err.message : "An error occurred");
         } finally {
             setEmailDialogOpen(false);
