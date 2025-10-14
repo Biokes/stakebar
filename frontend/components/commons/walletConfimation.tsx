@@ -1,13 +1,16 @@
 "use client"
-import { ConnectionOption, WalletConfirmationProps } from "@/lib/types";
+import { ApiResponse, ConnectionOption, WalletConfirmationProps } from "@/lib/types";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogClose, DialogFooter } from "../ui/dialog";
-import { BookOpen, Wallet, MessageCircle, Mail } from "lucide-react";
+import { BookOpen, Wallet, Mail } from "lucide-react";
 import { useWalletConnect } from "../provider/hooks/useWalletConnect";
 import { useState } from "react";
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useWhatsappConnect } from "../provider/hooks/useWhatsappConnect";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+
 
 export default function WalletConfirmation({ isOpen, setIsOpen }: WalletConfirmationProps) {
     const { openWhatsApp } = useWhatsappConnect()
@@ -16,24 +19,33 @@ export default function WalletConfirmation({ isOpen, setIsOpen }: WalletConfirma
     const [email, setEmail] = useState<string>("");
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string>("");
-
+    const router = useRouter()
     const handleEmailSubmit = async () => {
         setError("");
         setIsLoading(true);
-
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            setError("Please enter a valid email address");
-            setIsLoading(false);
-            return;
-        }
         try {
-            console.log("connecting email")
-            setEmailDialogOpen(false);
-            setIsOpen(false);
+            const data: Response = await fetch(`http://localhost:5000/api/v1/users/isVerified/${email}`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+            })
+            const response: ApiResponse<boolean> = await data.json();
+            if (response.success) {
+                if (response.data) {
+                    toast.success("welcome back");
+                    router.push("/home")
+                } else {
+                    await fetch(`http://localhost:5000/api/v1/users/register/${email}`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                    })
+                    toast.error("Email does not exist")
+                }
+            }
         } catch (err) {
             setError(err instanceof Error ? err.message : "An error occurred");
         } finally {
+            setEmailDialogOpen(false);
+            setIsOpen(false);
             setIsLoading(false);
             setEmail("");
         }
@@ -46,14 +58,14 @@ export default function WalletConfirmation({ isOpen, setIsOpen }: WalletConfirma
             icon: <BookOpen className="h-6 w-6 text-black" />,
             title: "Connect as a Beginner",
             description: "I want to continue without a wallet.",
-            action: () => openWhatsApp({phoneNumber: "2348112164332", message:"i want to start investing in YieldFi"})
+            action: () => openWhatsApp({ phoneNumber: "2348112164332", message: "i want to start investing in YieldFi" })
         },
         {
             id: "wallet",
             icon: <Wallet className="h-6 w-6 text-black" />,
             title: "Connect with My Wallet",
             description: "I have an existing cry    pto wallet.",
-            action: ()=>connect()
+            action: () => connect()
         },
         {
             id: "email",
@@ -112,18 +124,22 @@ export default function WalletConfirmation({ isOpen, setIsOpen }: WalletConfirma
                     <div className="grid gap-4 py-4">
                         <div className={`${error.length < 1 ? "py-2" : ""} grid gap-2`}>
                             <Label htmlFor="email">Email Address</Label>
-                            <Input id="email" type="email" placeholder="you@example.com" value={email} onChange={(e) => setEmail(e.target.value)} disabled={isLoading} required/>
+                            <Input id="email" type="email" placeholder="you@example.com" value={email}
+                                onChange={(e) => {
+                                    setEmail(e.target.value)
+                                }}
+                                disabled={isLoading} required />
                             {error && (<p className="text-sm text-red-500 py-2">{error}</p>)}
                         </div>
                     </div>
 
-                    <DialogFooter>
+                    <DialogFooter className="flex px-4 gap-2">
                         <DialogClose asChild>
                             <Button type="button" variant="outline">
                                 Cancel
                             </Button>
                         </DialogClose>
-                        <Button type="button" disabled={isLoading || !email.trim()} onClick={handleEmailSubmit}>
+                        <Button type="button" disabled={isLoading || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)} onClick={handleEmailSubmit}>
                             {isLoading ? "Connecting..." : "Continue"}
                         </Button>
                     </DialogFooter>

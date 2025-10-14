@@ -52,3 +52,9 @@ export interface DAppConnectorWithEvents extends DAppConnector {
     subscribe: (callback: (event: WalletEvent) => void) => { unsubscribe: () => void };
   };
 }
+
+export interface ApiResponse<T> {
+  success: boolean,
+  message: string,
+  data: T
+}
