@@ -13,7 +13,7 @@ export class User {
   isVerified!: boolean;
 
   @Column({ nullable: true })
-  pin!: string | null;
+  pin!: string;
 
   @CreateDateColumn()
   createdAt!: Date;

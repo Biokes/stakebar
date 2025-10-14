@@ -7,6 +7,7 @@ const PORT = process.env.PORT;
 
 async function startServer() {
   try {
+    console.log("PORT NUMBER: ",process.env.PORT)
     await AppDataSource.initialize()
     console.log('Connected to AppDataSource');
   } catch (error) {

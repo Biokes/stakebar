@@ -2,7 +2,7 @@ import { Resend } from "resend";
 import fs from "fs";
 import path from "path";
 import { YeildFiException } from "../exception/index.error";
-
+import "dotenv/config"
 
 class MailService {
   private readonly resend: Resend;
