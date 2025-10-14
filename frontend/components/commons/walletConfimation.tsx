@@ -31,7 +31,6 @@ export default function WalletConfirmation({ isOpen, setIsOpen }: WalletConfirma
                 headers: { "Content-Type": "application/json" },
             });
             const response: ApiResponse<boolean> = await res.json();
-            console.log("isverified response: ", response)
 
             if (response.success) {
                 if (response.data) {
