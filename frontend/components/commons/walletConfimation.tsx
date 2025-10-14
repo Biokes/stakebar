@@ -27,11 +27,11 @@ export default function WalletConfirmation({ isOpen, setIsOpen }: WalletConfirma
 
         try {
             const res = await fetch(`${BASE_URL}users/isVerified/${email}`, {
-                method: "POST",
+                method: "GET",
                 headers: { "Content-Type": "application/json" },
             });
-
             const response: ApiResponse<boolean> = await res.json();
+            console.log("isverified response: ", response)
 
             if (response.success) {
                 if (response.data) {
@@ -61,6 +61,7 @@ export default function WalletConfirmation({ isOpen, setIsOpen }: WalletConfirma
             setIsOpen(false);
             setIsLoading(false);
             setEmail("");
+            setError ("")
         }
     };
 
@@ -142,7 +143,7 @@ export default function WalletConfirmation({ isOpen, setIsOpen }: WalletConfirma
                                     setEmail(e.target.value)
                                 }}
                                 disabled={isLoading} required />
-                            {error && (<p className="text-sm text-red-500 py-2">{error}</p>)}
+                            {error && (<p className="text-sm text-red-500 py-2 w-full text-center">{error}</p>)}
                         </div>
                     </div>
 
@@ -152,7 +153,7 @@ export default function WalletConfirmation({ isOpen, setIsOpen }: WalletConfirma
                                 Cancel
                             </Button>
                         </DialogClose>
-                        <Button type="button" disabled={isLoading || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)} onClick={handleEmailSubmit}>
+                        <Button type="button" disabled={isLoading || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)} onClick={handleEmailSubmit}>
                             {isLoading ? "Connecting..." : "Continue"}
                         </Button>
                     </DialogFooter>

@@ -48,7 +48,7 @@ export default function Home() {
     <section className="relative rounded-xl overflow-hidden mb-16">
       <div className="absolute inset-0 bg-cover bg-center"
         style={{ backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.7) 100%),
-           url('https://lh3.googleusercontent.com/aida-public/AB6AXuAg16A4S4UIuxDyEJQdbI-METzyEzn10R_IM48kPxkPZ97NZKo2Wo6-tkFdJKILQTAYkZbqOt0nmaMHnMuVJJKZs47I52RxGRJkUWroVSAgcSHZ8VbgRr8i1zXw0chEjjPfJUCTBIOAH9x5WIxo4YBUUTweLuPmC8aiHH77TJ8shg2ubKan5vt7QU_doHQkfrC2W-RMX-Ru2vmuolKKNS9cxOjPEwRKRRYI9YxbbRK6HWmyGeRIQ7zkruDL2UytCiz2YR3KijEmpCYb')`,
+           url('/herobg.png')`,
         }}
       ></div>
       <div className="relative min-h-[480px] flex flex-col items-start justify-end p-8 md:p-12 text-white">
