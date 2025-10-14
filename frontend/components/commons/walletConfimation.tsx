@@ -51,7 +51,7 @@ export default function WalletConfirmation({ isOpen, setIsOpen }: WalletConfirma
                     }
                 }
             } else {
-                toast.error(response.message || "Verification check failed");
+                toast.error(response.message ?? "Verification check failed");
             }
         } catch (err) {
             console.error("Error:", err);
