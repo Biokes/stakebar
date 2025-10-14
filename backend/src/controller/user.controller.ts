@@ -34,16 +34,14 @@ class UserController {
   public async isVerifiedEmail(req: Request, res: Response) {
     const { email } = req.params;
     await this.validateEmail(res, email);
-    const isVerified =  await this.userService.isVerifiedEmail(
-      email?.toLowerCase() as string
-    );
+    const isVerified =  await this.userService.isVerifiedEmail(email!.toLowerCase());
     return res.status(200).json({
-      sucesss: true,
+      success: true,
       message:"",
       data: isVerified
     })
   }
-  
+
   public async getUser(req: Request, res: Response) { 
     const { email } = req.params;
     await this.validateEmail(res, email)

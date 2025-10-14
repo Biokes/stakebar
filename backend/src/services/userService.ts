@@ -56,8 +56,7 @@ class UserService {
 
   public async isVerifiedEmail(email: string): Promise<boolean> {
     const user = await this.userRepository.findByEmail(email);
-    return !user || !user.isVerified;
-
+    return !!user && user.isVerified;
   }
 }
 
