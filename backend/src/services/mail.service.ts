@@ -20,7 +20,12 @@ class MailService {
   public async sendWelcomeEmail(email: string): Promise<void> {
     try {
       const html = this.replaceVariables(MailService.htmlContent, {name: email,year: new Date().getFullYear().toString(),});
-      await this.resend.emails.send({from: process.env.APP_NAME as string,to: email,subject: MailService.APP_SUBJECT,html});
+      await this.resend.emails.send({
+        from: process.env.APP_NAME as string,
+        to: email,
+        subject: MailService.APP_SUBJECT,
+        html
+      });
     } catch (error: any ) {
         throw new YeildFiException(error.message,"unable to send welcome mail");
     }
