@@ -7,7 +7,7 @@ import juice from "juice";
 
 class MailService {
   private readonly transporter: Transporter;
-  private static readonly VERIFICATION_URL = "http://localhost:3000/api/v1/users/verify"
+  private static readonly VERIFICATION_URL = "http://localhost:3000/api/v1/users/verify?"
   constructor() {
     this.transporter =  nodemailer.createTransport({
         service: process.env.GOOGLE_SERVICE,
@@ -27,11 +27,12 @@ class MailService {
 
   public async sendWelcomeEmail(email: string): Promise<void> {
     try {
-      const html = juice(this.replaceVariables(MailService.htmlContent, {
+      const inlinedHtml = juice(MailService.htmlContent);
+      const html = this.replaceVariables(inlinedHtml, {
         name: email,
         year: new Date().getFullYear().toString(),
-        verify_link: `${MailService.VERIFICATION_URL}/email`
-      }));
+        verify_link: `${MailService.VERIFICATION_URL}/${encodeURIComponent(email)}}`
+      });
       await this.transporter.sendMail({
         from: `"YieldFi" <${process.env.GMAIL_USER}>`,
         to: email,
