@@ -7,8 +7,7 @@ import juice from "juice";
 
 class MailService {
   private readonly transporter: Transporter;
-  private static readonly VERIFICATION_URL =
-    "http://localhost:3000/api/v1/users/verify";
+  private static readonly VERIFICATION_URL = "http://localhost:3000/verify";
 
   constructor() {
     this.transporter = nodemailer.createTransport({
@@ -22,7 +21,8 @@ class MailService {
 
   public async sendVerificationMail(email: string): Promise<void> {
     try {
-      const inlinedHtml = juice(this.loadMail("../template/verification.html"));
+      const loadedTemplate = this.loadMail("../template/verification.html")
+      const inlinedHtml = juice(loadedTemplate);
       const html = this.replaceVariables(inlinedHtml, {
         name: email,
         year: new Date().getFullYear().toString(),
@@ -37,7 +37,10 @@ class MailService {
         html: html,
       });
     } catch (error: any) {
-      throw new YeildFiException(error.message, "unable to send verification mail");
+      console.log("error: ", error);
+      if (error instanceof YeildFiException) throw error;
+      const msg = error?.message || "Unknown error";
+      throw new YeildFiException(msg, "unable to send verification mail");
     }
   }
 
@@ -58,14 +61,16 @@ class MailService {
         html,
       });
     } catch (error: any) {
-      throw new YeildFiException(error.message, "unable to send welcome mail");
+      console.error("email sending error =:", error);
+      if (error instanceof YeildFiException) throw error;
+      throw new YeildFiException(
+        error?.message || "Unknown error",
+        "unable to send welcome mail"
+      );
     }
   }
 
-  private replaceVariables(
-    html: string,
-    variables: Record<string, string>
-  ): string {
+  private replaceVariables( html: string, variables: Record<string, string>): string {
     let result = html;
     Object.entries(variables).forEach(([key, value]) => {
       result = result.replace(new RegExp(`{{${key}}}`, "g"), value);

@@ -12,7 +12,6 @@ export const handleError = (err: unknown, req: Request, res: Response, next: Nex
     });
     return;
   }
-
   const error = err as Error;
   res.status(500).json({
     success: false,

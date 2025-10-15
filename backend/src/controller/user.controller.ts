@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { UserService } from "../services/userService";
 import { UserDTO } from "../data/models";
+import { YeildFiException } from "../exception/index.error";
 
 class UserController {
   private userService: UserService;
@@ -11,7 +12,7 @@ class UserController {
 
   public async register(req: Request, res: Response) {
     const { email } = req.params;
-    await this.validateEmail(res, email?.toLowerCase());
+    await this.validateEmail(email?.toLowerCase());
     const user = await this.userService.createUser(email!.toLowerCase());
     return res.status(201).json({
       success: true,
@@ -22,8 +23,10 @@ class UserController {
 
   public async verify(req: Request, res: Response) {
     const { email } = req.params;
-    await this.validateEmail(res, email);
-    const user: UserDTO = await this.userService.verify(email?.toLowerCase() as string);
+    await this.validateEmail(email);
+    const user: UserDTO = await this.userService.verify(
+      email?.toLowerCase() as string
+    );
     return res.status(200).json({
       success: true,
       message: "email successfully verified",
@@ -33,44 +36,42 @@ class UserController {
 
   public async isVerifiedEmail(req: Request, res: Response) {
     const { email } = req.params;
-    await this.validateEmail(res, email);
-    const isVerified =  await this.userService.isVerifiedEmail(email!.toLowerCase());
+    await this.validateEmail(email);
+    const isVerified = await this.userService.isVerifiedEmail(
+      email!.toLowerCase()
+    );
     return res.status(200).json({
       success: true,
-      message:"",
-      data: isVerified
-    })
+      message: "",
+      data: isVerified,
+    });
   }
 
-  public async getUser(req: Request, res: Response) { 
+  public async getUser(req: Request, res: Response) {
     const { email } = req.params;
-    await this.validateEmail(res, email)
-    const user = await this.userService.getUserByEmail(email!)
+    await this.validateEmail(email);
+    const user = await this.userService.getUserByEmail(email!);
     return res.status(200).json({
       success: true,
       data: user,
-      message :'success'
-    })
+      message: "success",
+    });
   }
 
-  public async reVerify(req: Request, res: Response) { 
+  public async reVerify(req: Request, res: Response) {
     const { email } = req.params;
-    await this.validateEmail(res, email)
+    await this.validateEmail(email);
     await this.userService.reVerify(email!);
     return res.status(200).json({
-      sucess: true,
-      data:"",
-      message:"Email verification sent"
-    })
+      success: true,
+      data: "",
+      message: "Email verification sent",
+    });
   }
 
-  private async validateEmail(res: Response, email?: string) {
+  private validateEmail(email?: string): void {
     if (!email || email.trim().length === 0) {
-      return res.status(400).json({
-        success: false,
-        message: "Email is required",
-        data: "",
-      });
+      throw new YeildFiException("Email is required");
     }
   }
 }

@@ -14,20 +14,16 @@ class UserService {
   }
 
   public async createUser(email: string): Promise<UserDTO> {
-    const user = await this.userRepository.findByEmail(email.toLowerCase());
-    if (!user) {
-      const createdUser: User = await this.userRepository.create(
-        email.toLowerCase()
-      );
-      await this.mailService.sendWelcomeEmail(email);
-      const userDTO: UserDTO = {
-        isVerified: createdUser.isVerified,
-        id: createdUser.id,
-        email: createdUser.email,
-      };
-      return userDTO;
-    }
-    throw new YeildFiException("Email already exist");
+    const normalized = email.toLowerCase();
+    const existing = await this.userRepository.findByEmail(normalized);
+    if (existing) throw new YeildFiException("Email already exists");
+    const createdUser = await this.userRepository.create(normalized);
+    await this.mailService.sendWelcomeEmail(normalized);
+    return {
+      id: createdUser.id,
+      email: createdUser.email,
+      isVerified: createdUser.isVerified,
+    };
   }
 
   public async getUserByEmail(email: string): Promise<UserDTO> {
@@ -54,8 +50,12 @@ class UserService {
     return returnValue;
   }
 
-  public async reVerify(email: string): Promise<void> { 
-    await this.mailService.sendVerificationMail(email);
+  public async reVerify(email: string): Promise<void> {
+    const normalizedEmail = email.toLowerCase();
+    const user = await this.userRepository.findByEmail(normalizedEmail);
+    if (!user) throw new YeildFiException("User not found");
+    if (user.isVerified) throw new YeildFiException("User already verified");
+    await this.mailService.sendVerificationMail(normalizedEmail);
   }
 
   public async isVerifiedEmail(email: string): Promise<boolean> {
