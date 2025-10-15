@@ -57,7 +57,6 @@ export default function WalletConfirmation({ isOpen, setIsOpen }: WalletConfirma
             setError(err instanceof Error ? err.message : "An error occurred");
         } finally {
             setEmailDialogOpen(false);
-            setIsOpen(false);
             setIsLoading(false);
             setEmail("");
             setError ("")
