@@ -3,10 +3,11 @@ import fs from "fs";
 import path from "path";
 import { YeildFiException } from "../exception/index.error";
 import "dotenv/config";
+import juice from "juice";
 
 class MailService {
   private readonly transporter: Transporter;
-
+  private static readonly VERIFICATION_URL = "http://localhost:3000/api/v1/users/verify"
   constructor() {
     this.transporter =  nodemailer.createTransport({
         service: process.env.GOOGLE_SERVICE,
@@ -26,10 +27,11 @@ class MailService {
 
   public async sendWelcomeEmail(email: string): Promise<void> {
     try {
-      const html = this.replaceVariables(MailService.htmlContent, {
+      const html = juice(this.replaceVariables(MailService.htmlContent, {
         name: email,
         year: new Date().getFullYear().toString(),
-      });
+        verify_link: `${MailService.VERIFICATION_URL}/email`
+      }));
       await this.transporter.sendMail({
         from: `"YieldFi" <${process.env.GMAIL_USER}>`,
         to: email,
