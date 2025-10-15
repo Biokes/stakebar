@@ -1,33 +1,44 @@
-import { Resend } from "resend";
+import nodemailer, { Transporter } from "nodemailer";
 import fs from "fs";
 import path from "path";
 import { YeildFiException } from "../exception/index.error";
-import "dotenv/config"
+import "dotenv/config";
 
 class MailService {
-  private readonly resend: Resend;
+  private readonly transporter: Transporter;
 
   constructor() {
-    this.resend = new Resend(process.env.RESEND_API_KEY);
+    this.transporter =  nodemailer.createTransport({
+        service: process.env.GOOGLE_SERVICE,
+        auth: {
+          user: process.env.GMAIL_USER,
+          pass: process.env.GMAIL_PASS,
+        },
+      });
   }
-
   private replaceVariables(html: string,variables: Record<string, string>): string {
     let result = html;
-    Object.entries(variables).forEach(([key, value]) => {result = result.replace(new RegExp(`{{${key}}}`, "g"), value);});
+    Object.entries(variables).forEach(([key, value]) => {
+      result = result.replace(new RegExp(`{{${key}}}`, "g"), value);
+    });
     return result;
   }
 
   public async sendWelcomeEmail(email: string): Promise<void> {
     try {
-      const html = this.replaceVariables(MailService.htmlContent, {name: email,year: new Date().getFullYear().toString(),});
-      await this.resend.emails.send({
-        from: process.env.APP_NAME as string,
-        to: email,
-        subject: MailService.APP_SUBJECT,
-        html
+      const html = this.replaceVariables(MailService.htmlContent, {
+        name: email,
+        year: new Date().getFullYear().toString(),
       });
-    } catch (error: any ) {
-        throw new YeildFiException(error.message,"unable to send welcome mail");
+      await this.transporter.sendMail({
+        from: `"YieldFi" <${process.env.GMAIL_USER}>`,
+        to: email,
+        subject: "Welcome to YieldFI",
+        html,
+      });
+   
+    } catch (error: any) {
+      throw new YeildFiException(error.message, "unable to send welcome mail");
     }
   }
 
@@ -37,13 +48,17 @@ class MailService {
       const html = fs.readFileSync(templatePath, "utf8");
       return html;
     } catch (error: any) {
-      throw new YeildFiException(error.message || "Unknown file read error",`Unable to load template at ${templatePath}`);
+      throw new YeildFiException(
+        error.message || "Unknown file read error",
+        `Unable to load template at ${templatePath}`
+      );
     }
   }
-    
-  private static readonly htmlContent: string = MailService.loadTemplate( "../template/welcome.html");
-  private static readonly APP_SUBJECT = "Welcome to YieldFi - Unlock Decentralized Yield";
-    
+
+  private static readonly htmlContent: string = MailService.loadTemplate(
+    "../template/welcome.html"
+  );
+
 }
 
 export { MailService };
