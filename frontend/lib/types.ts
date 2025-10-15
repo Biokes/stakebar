@@ -58,3 +58,14 @@ export interface ApiResponse<T> {
   message: string,
   data: T
 }
+export interface UserDTO {
+  email: string;
+  id: number;
+  isVerified: boolean;
+}
+export interface ErrorDTO { 
+  success: boolean,
+  message: string,
+  errorPath: string,
+  description: string
+}

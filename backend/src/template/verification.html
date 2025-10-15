@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Verify Your Email - YieldFi</title>
+    <style>
+      body {
+        font-family: "Geist Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, "Helvetica Neue", Arial, sans-serif;
+        line-height: 1.6;
+        color: #1a1a1a;
+        background-color: #f5f5f5;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        max-width: 600px;
+        margin: 40px auto;
+        background-color: #ffffff;
+        border: 1px solid #e5e5e5;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      }
+
+      .header {
+        background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+        color: #ffffff;
+        padding: 40px 24px;
+        text-align: center;
+      }
+
+      .header h1 {
+        margin: 0 0 8px 0;
+        font-size: 32px;
+        font-weight: bold;
+        color: #ffffff;
+      }
+
+      .header p {
+        margin: 0;
+        font-size: 16px;
+        opacity: 0.95;
+      }
+
+      .content {
+        padding: 48px 32px;
+        text-align: center;
+      }
+
+      .icon-container {
+        margin-bottom: 24px;
+      }
+
+      .email-icon {
+        font-size: 64px;
+        line-height: 1;
+      }
+
+      .title {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 16px;
+        color: #1a1a1a;
+      }
+
+      .description {
+        color: #666666;
+        margin-bottom: 32px;
+        font-size: 16px;
+        line-height: 1.6;
+      }
+
+      .verify-button {
+        display: inline-block;
+        background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+        color: #ffffff;
+        text-decoration: none;
+        padding: 16px 48px;
+        border-radius: 8px;
+        font-weight: bold;
+        font-size: 18px;
+        margin: 8px 0 24px 0;
+        box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+      }
+
+      .security-note {
+        background-color: #fef3c7;
+        border-left: 4px solid #f59e0b;
+        padding: 16px;
+        margin: 32px 0;
+        text-align: left;
+        border-radius: 4px;
+      }
+
+      .security-note-title {
+        font-weight: bold;
+        color: #92400e;
+        margin-bottom: 8px;
+      }
+
+      .security-note-text {
+        color: #92400e;
+        font-size: 14px;
+        margin: 0;
+      }
+
+      .alternative-link {
+        margin-top: 24px;
+        padding-top: 24px;
+        border-top: 1px solid #e5e5e5;
+      }
+
+      .alternative-text {
+        color: #666666;
+        font-size: 14px;
+        margin-bottom: 12px;
+      }
+
+      .link-box {
+        background-color: #f9f9f9;
+        border: 1px solid #e5e5e5;
+        border-radius: 8px;
+        padding: 12px;
+        word-break: break-all;
+        font-size: 12px;
+        color: #f59e0b;
+        font-family: monospace;
+      }
+
+      .footer {
+        background-color: #f9f9f9;
+        border-top: 1px solid #e5e5e5;
+        padding: 24px;
+        text-align: center;
+        color: #666666;
+        font-size: 14px;
+      }
+
+      .footer-links {
+        margin-top: 16px;
+      }
+
+      .footer-links a {
+        color: #f59e0b;
+        text-decoration: none;
+        margin: 0 12px;
+        font-weight: 500;
+      }
+
+      .expire-notice {
+        color: #999999;
+        font-size: 12px;
+        margin-top: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>YieldFi</h1>
+        <p>Email Verification Required</p>
+      </div>
+
+      <div class="content">
+        <div class="icon-container">
+          <div class="email-icon">📧</div>
+        </div>
+
+        <div class="title">Verify Your Email Address</div>
+
+        <p class="description">
+          Hi <strong>{{name}}</strong>,<br><br>
+          Thanks for signing up with YieldFi! To complete your registration and 
+          start earning yields, please verify your email address by clicking the 
+          button below.
+        </p>
+
+        <a href="{{verify_link}}" class="verify-button" style="background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%); color: #ffffff; text-decoration: none; padding: 16px 48px; border-radius: 8px; font-weight: bold; font-size: 18px; display: inline-block;">
+          Verify Email Address
+        </a>
+
+        <div class="security-note">
+          <div class="security-note-title">⚠️ Security Notice</div>
+          <p class="security-note-text">
+            This verification link will expire in <strong>72 hours</strong>. 
+            If you didn't create a YieldFi account, please ignore this email 
+            or contact our support team.
+          </p>
+        </div>
+       
+      </div>
+
+      <div class="footer">
+        <p style="margin: 0 0 8px 0;">Need help? We're here for you.</p>
+        <p style="margin: 16px 0 0 0; font-size: 12px; color: #999999;">
+          &copy; {{year}} YieldFi. All rights reserved.
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

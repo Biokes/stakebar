@@ -45,13 +45,25 @@ class UserController {
   public async getUser(req: Request, res: Response) { 
     const { email } = req.params;
     await this.validateEmail(res, email)
-    const user = this.userService.getUserByEmail(email!)
+    const user = await this.userService.getUserByEmail(email!)
     return res.status(200).json({
       success: true,
       data: user,
       message :'success'
     })
   }
+
+  public async reVerify(req: Request, res: Response) { 
+    const { email } = req.params;
+    await this.validateEmail(res, email)
+    await this.userService.reVerify(email!);
+    return res.status(200).json({
+      sucess: true,
+      data:"",
+      message:"Email verification sent"
+    })
+  }
+
   private async validateEmail(res: Response, email?: string) {
     if (!email || email.trim().length === 0) {
       return res.status(400).json({

@@ -7,32 +7,49 @@ import juice from "juice";
 
 class MailService {
   private readonly transporter: Transporter;
-  private static readonly VERIFICATION_URL = "http://localhost:3000/api/v1/users/verify";
-  
+  private static readonly VERIFICATION_URL =
+    "http://localhost:3000/api/v1/users/verify";
+
   constructor() {
-    this.transporter =  nodemailer.createTransport({
-        service: process.env.GOOGLE_SERVICE,
-        auth: {
-          user: process.env.GMAIL_USER,
-          pass: process.env.GMAIL_PASS,
-        },
-      });
-  }
-  private replaceVariables(html: string,variables: Record<string, string>): string {
-    let result = html;
-    Object.entries(variables).forEach(([key, value]) => {
-      result = result.replace(new RegExp(`{{${key}}}`, "g"), value);
+    this.transporter = nodemailer.createTransport({
+      service: process.env.GOOGLE_SERVICE,
+      auth: {
+        user: process.env.GMAIL_USER,
+        pass: process.env.GMAIL_PASS,
+      },
     });
-    return result;
+  }
+
+  public async sendVerificationMail(email: string): Promise<void> {
+    try {
+      const inlinedHtml = juice(this.loadMail("../template/verification.html"));
+      const html = this.replaceVariables(inlinedHtml, {
+        name: email,
+        year: new Date().getFullYear().toString(),
+        verify_link: `${MailService.VERIFICATION_URL}/${encodeURIComponent(
+          email
+        )}`,
+      });
+      await this.transporter.sendMail({
+        from: `"YieldFi" <${process.env.GMAIL_USER}>`,
+        to: email,
+        subject: "Email Verification",
+        html: html,
+      });
+    } catch (error: any) {
+      throw new YeildFiException(error.message, "unable to send verification mail");
+    }
   }
 
   public async sendWelcomeEmail(email: string): Promise<void> {
     try {
-      const inlinedHtml = juice(MailService.htmlContent);
+      const inlinedHtml = juice(this.loadMail("../template/welcome.html"));
       const html = this.replaceVariables(inlinedHtml, {
         name: email,
         year: new Date().getFullYear().toString(),
-        verify_link: `${MailService.VERIFICATION_URL}/${encodeURIComponent(email)}`
+        verify_link: `${MailService.VERIFICATION_URL}/${encodeURIComponent(
+          email
+        )}`,
       });
       await this.transporter.sendMail({
         from: `"YieldFi" <${process.env.GMAIL_USER}>`,
@@ -40,10 +57,20 @@ class MailService {
         subject: "Welcome to YieldFI",
         html,
       });
-   
     } catch (error: any) {
       throw new YeildFiException(error.message, "unable to send welcome mail");
     }
+  }
+
+  private replaceVariables(
+    html: string,
+    variables: Record<string, string>
+  ): string {
+    let result = html;
+    Object.entries(variables).forEach(([key, value]) => {
+      result = result.replace(new RegExp(`{{${key}}}`, "g"), value);
+    });
+    return result;
   }
 
   private static loadTemplate(filePath: string): string {
@@ -59,10 +86,9 @@ class MailService {
     }
   }
 
-  private static readonly htmlContent: string = MailService.loadTemplate(
-    "../template/welcome.html"
-  );
-
+  private loadMail(mailPath: string): string {
+    return MailService.loadTemplate(mailPath);
+  }
 }
 
 export { MailService };

@@ -54,6 +54,10 @@ class UserService {
     return returnValue;
   }
 
+  public async reVerify(email: string): Promise<void> { 
+    await this.mailService.sendVerificationMail(email);
+  }
+
   public async isVerifiedEmail(email: string): Promise<boolean> {
     const user = await this.userRepository.findByEmail(email);
     return !!user && user.isVerified;

@@ -15,9 +15,9 @@ export default function Home() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center gap-4">
-            <svg className="h-8 w-8 text-primary" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="24" cy="24" r="20" stroke="currentColor" strokeWidth="4" />
-            </svg>
+            <aside className="w-[40px] h-[40px] overflow-hidden">
+              <Image className="object-center object-cover" width={40} height={40} src={"/android-chrome-512x512.png"} alt={"logo"}/>
+            </aside>
             <h1 className="text-2xl font-bold">YieldFi</h1>
           </div>
 
