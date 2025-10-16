@@ -25,13 +25,11 @@
           groups[groupId].totalStaked += msg.value;
       }
 
-      function getGroupDetails(uint256 groupId) external view returns (
-          address[] memory,
-          uint256,
-          uint256,
-          bool
-      ) {
+      function getGroupDetails(uint256 groupId) external view returns (address[] memory,uint256,uint256,bool) {
           ThriftGroup memory group = groups[groupId];
           return (group.members, group.totalStaked, group.createdAt, group.isActive);
       }
+      function addMember(string memory memberName)external{}
+      function removeMember(string memory memberName)external{}
+      function showMemberHistory(string memory memberName)external{}
   }
