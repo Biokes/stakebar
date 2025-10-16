@@ -15,12 +15,12 @@
   ❌ Competitors have simpler, working MVPs
 
   ---
-  🔥 THE 7-DAY COUNTERATTACK STRATEGY
+  #### 🔥 THE 7-DAY COUNTERATTACK STRATEGY
 
   You need to UPDATE YOUR SUBMISSION with a working demo + real user traction. Here's how:
 
   ---
-  💡 PIVOT: "YieldFi Thrift" - Nigeria's First WhatsApp Ajo/Esusu on Blockchain
+  #### 💡 PIVOT: "YieldFi Thrift" - Nigeria's First WhatsApp Ajo/Esusu on Blockchain
 
   The Winning Angle:
 
@@ -213,7 +213,7 @@
   Deliverable: User deposits NGN → Backend tracks equivalent USDC balance
 
   ---
-  DAY 5: Integration Testing (The Make-or-Break Day)
+  #### DAY 5: Integration Testing (The Make-or-Break Day)
 
   Goal: Full user journey works end-to-end
 
