@@ -1,5 +1,5 @@
-  Strengths:
-
+  # Strengths:
+[Yieldfi](README.md) | [Invoice Factoring](ImplemetableFlow.md) | [Freelance Escrow](TechnicalExecutiveSummary.md) |
   ✅ Already submitted (pressure off)
   ✅ WhatsApp integration (perfect for Nigeria - 90%+ open rate)
   ✅ Yield-bearing NFTs (novel concept)
