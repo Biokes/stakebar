@@ -1,12 +1,5 @@
 # 🚀 YieldFi: The Killer Features Blueprint
 
-> **KILLER RESEARCH COMPLETE.**  
-> Based on deep analysis, here are **5 KILLER FEATURES** that transform YieldFi from *"good"* to *"LEGENDARY"* — each validated by market data, design thinking, and revenue potential.
-
----
-
-## 🎯 THE KILLER FEATURE MATRIX
-
 | Feature                              | Market Size     | Problem Solved               | Revenue Potential | Implementation Complexity | Hackathon Impact |
 |--------------------------------------|-----------------|------------------------------|-------------------|---------------------------|------------------|
 | **1. Diaspora Remittance Staking**   | $26B/year       | High remittance fees (5-8%)  | $50M+ Year 1      | Medium                    | 🔥🔥🔥🔥🔥       |
@@ -20,10 +13,10 @@
 ## 💰 FEATURE #1: Diaspora Remittance Staking ⭐️⭐️⭐️⭐️⭐️
 
 ### The Problem (Design Thinking: Empathy)
-- 10M+ Nigerian diaspora send $26B/year home  
-- WorldRemit/Wise charge 3-5% fees ($780M wasted annually)  
-- Recipients receive cash → sits idle in bank → earns 0%  
-- Inflation (25%) erodes value immediately  
+- 10M+ Nigerian diaspora send $26B/year home
+- WorldRemit/Wise charge 3-5% fees ($780M wasted annually)
+- Recipients receive cash → sits idle in bank → earns 0%
+- Inflation (25%) erodes value immediately
 
 ### The Solution (Design Thinking: Ideate)
 > “Send money home + Auto-stake for family = Earn 15% APY”
@@ -233,10 +226,6 @@
 2. **Thrift Group Flow:** 10 friends form Ajo group → Earn yield NFTs  
 3. **NFT Marketplace Flow:** Bola sells her NFT → Chidi buys instantly  
 
-> **Judges’ jaws: on the floor.**
-
----
-
 ## 📈 REVENUE PROJECTIONS
 
 | Feature                 | Year 1 | Year 3 | Margin |
@@ -268,4 +257,4 @@
 Say **"Let's build"** — and we start Day 1 implementation:  
 WhatsApp Bot + Diaspora Remittance Integration + Yield NFT flow.  
 
-⏳ Your 7-day countdown to $100K starts now. 🇳🇬🚀
+⏳ Your 7-day countdown to $100K starts now.

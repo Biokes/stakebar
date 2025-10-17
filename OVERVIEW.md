@@ -29,7 +29,6 @@
   "Ajo/Esusu (Thrift) Groups on WhatsApp → Earn 15% Yield → Powered by Hedera"
 
   Why This Wins:
-
   | Factor               | Your Advantage                                              |
   |----------------------|-------------------------------------------------------------|
   | Market Validation    | 80%+ Nigerians know Ajo/Esusu (rotating savings groups)     |
