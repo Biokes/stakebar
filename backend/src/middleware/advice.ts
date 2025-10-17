@@ -21,6 +21,4 @@ export const handleError = (err: unknown, req: Request, res: Response, next: Nex
       : (error.stack || "No stack trace available"),
     errorPath: req.url,
   });
-  
-  next()
 };
