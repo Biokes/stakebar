@@ -23,6 +23,7 @@
     "nodemailer": "^7.0.9",
     "pg": "^8.16.3",
     "reflect-metadata": "^0.2.2",
+    "twilio": "^5.10.3",
     "typeorm": "^0.3.27",
     "wait-on": "^9.0.1"
   },
