@@ -8,6 +8,8 @@ const mailService = new MailService()
 const userRepos: UserRepository = new UserRepository();
 const userService: UserService = new UserService(userRepos, mailService);
 const userController: UserController = new UserController(userService);
+
+
 const whatsappController: WhatsappController = new WhatsappController();
 
 export { userController, whatsappController }
