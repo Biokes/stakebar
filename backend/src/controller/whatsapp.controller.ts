@@ -15,6 +15,7 @@ export class WhatsappController {
             }
         }
     }
+    
     async postWebHook(request: Request, response: Response) { 
         let body_params = request.body()
         console.log(JSON.stringify(body_params, null, 2));
