@@ -15,10 +15,19 @@ export class WhatsappController {
             }
         }
     }
-    
+
     async postWebHook(request: Request, response: Response) { 
         let body_params = request.body()
         console.log(JSON.stringify(body_params, null, 2));
-
+        if (body_params.object) { 
+            if (body_params.entry &&
+                body_params.entry[0].changes && 
+                body_params.entry[0].changes[0].value.message[0]
+            ) { 
+                let phone_no_id = body_params.entry[0].challenge[0].value.metadata.phone_number_id;
+                let from = body_params.entry[0].changes[0].value.messages[0].from;
+                let msg_body = body_params.entry[0].changes[0].value.messages[0].text.body;
+            }
+        }
     }
 }
