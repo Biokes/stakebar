@@ -1,7 +1,7 @@
 import { UserDTO } from "./../data/models/index";
 import { UserRepository } from "../data/repositories/users";
 import { YeildFiException } from "../exception/index.error";
-import { User } from "../data/models/user";
+// import { User } from "../data/models/user";
 import { MailService } from "./mail.service";
 
 class UserService {
@@ -13,7 +13,7 @@ class UserService {
     this.mailService = mailService;
   }
 
-  public async createUser(email: string): Promise<UserDTO> {
+   async createUser(email: string): Promise<UserDTO> {
     const normalized = email.toLowerCase();
     const existing = await this.userRepository.findByEmail(normalized);
     if (existing) throw new YeildFiException("Email already exists");
@@ -26,7 +26,7 @@ class UserService {
     };
   }
 
-  public async getUserByEmail(email: string): Promise<UserDTO> {
+   async getUserByEmail(email: string): Promise<UserDTO> {
     const userFound = await this.userRepository.findByEmail(email);
     if (!userFound) throw new YeildFiException("user not found");
     const returnValue: UserDTO = {
@@ -37,7 +37,7 @@ class UserService {
     return returnValue;
   }
 
-  public async verify(email: string): Promise<UserDTO> {
+   async verify(email: string): Promise<UserDTO> {
     const user = await this.userRepository.findByEmail(email);
     if (!user) throw new YeildFiException("Email does not Exist");
     if (user.isVerified) throw new YeildFiException("User already verified");
@@ -50,7 +50,7 @@ class UserService {
     return returnValue;
   }
 
-  public async reVerify(email: string): Promise<void> {
+   async reVerify(email: string): Promise<void> {
     const normalizedEmail = email.toLowerCase();
     const user = await this.userRepository.findByEmail(normalizedEmail);
     if (!user) throw new YeildFiException("User not found");
@@ -58,7 +58,7 @@ class UserService {
     await this.mailService.sendVerificationMail(normalizedEmail);
   }
 
-  public async isVerifiedEmail(email: string): Promise<boolean> {
+   async isVerifiedEmail(email: string): Promise<boolean> {
     const user = await this.userRepository.findByEmail(email);
     return !!user && user.isVerified;
   }

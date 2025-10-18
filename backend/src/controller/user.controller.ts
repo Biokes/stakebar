@@ -10,7 +10,7 @@ class UserController {
     this.userService = userService;
   }
 
-  public async register(req: Request, res: Response) {
+   async register(req: Request, res: Response) {
     const { email } = req.params;
     await this.validateEmail(email?.toLowerCase());
     const user = await this.userService.createUser(email!.toLowerCase());
@@ -21,7 +21,7 @@ class UserController {
     });
   }
 
-  public async verify(req: Request, res: Response) {
+   async verify(req: Request, res: Response) {
     const { email } = req.params;
     await this.validateEmail(email);
     const user: UserDTO = await this.userService.verify(
@@ -34,7 +34,7 @@ class UserController {
     });
   }
 
-  public async isVerifiedEmail(req: Request, res: Response) {
+   async isVerifiedEmail(req: Request, res: Response) {
     const { email } = req.params;
     await this.validateEmail(email);
     const isVerified = await this.userService.isVerifiedEmail(
@@ -47,7 +47,7 @@ class UserController {
     });
   }
 
-  public async getUser(req: Request, res: Response) {
+   async getUser(req: Request, res: Response) {
     const { email } = req.params;
     await this.validateEmail(email);
     const user = await this.userService.getUserByEmail(email!);
@@ -58,7 +58,7 @@ class UserController {
     });
   }
 
-  public async reVerify(req: Request, res: Response) {
+   async reVerify(req: Request, res: Response) {
     const { email } = req.params;
     await this.validateEmail(email);
     await this.userService.reVerify(email!);
