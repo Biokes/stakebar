@@ -7,7 +7,6 @@ const config_1 = require("./config");
 const PORT = process.env.PORT;
 async function startServer() {
     try {
-        console.log("PORT NUMBER: ", process.env.PORT);
         await config_1.AppDataSource.initialize();
         console.log('Connected to AppDataSource');
     }

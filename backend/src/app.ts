@@ -21,7 +21,7 @@ app.get("/", (req: Request, res: Response) => {
   console.log("testing main: ", req);
   res.status(200).json({ message: "YieldFi Backend is running 🚀" });
 });
-app.ues("/api/v1/webhook", whatspppRouter)
+app.ues("/api/v1/webhook", whatsappRouter)
 app.use("/api/v1/users", userRouter);
 
 app.use(handleError);
