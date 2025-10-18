@@ -1,8 +1,8 @@
 import { UserController } from "../controller/user.controller";
+import { WhatsappController } from "../controller/whatsapp.controller";
 import { UserRepository } from "../data/repositories/users";
 import { MailService } from "../services/mail.service";
 import { UserService } from "../services/userService";
-import { WhatsappController } from "../controller/whatsapp.controller";
 
 const mailService = new MailService()
 const userRepos: UserRepository = new UserRepository();
