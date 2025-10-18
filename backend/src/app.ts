@@ -1,7 +1,8 @@
 const express = require("express");
 const dotenv = require("dotenv");
 import type { Response } from "express";
-import { userRouter, whatsappRouter } from "./routes/user.route";
+import { userRouter } from "./routes/user.route";
+import { whatsappRouter } from "./routes/whatsapp.route";
 import { handleError } from "./middleware/advice";
 import cors from "cors";
 dotenv.config();
