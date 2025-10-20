@@ -2,9 +2,13 @@ on:
   push:
     branches:
       - main
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
 
 jobs:
   build:
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
 
     steps:
@@ -45,10 +49,6 @@ jobs:
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           working-directory: ./frontend
 
-on:
-  schedule:
-    - cron: '*/5 * * * *'
-jobs:
   ping:
     runs-on: ubuntu-latest
     steps:
