@@ -1,9 +1,7 @@
 export class WalletService { 
-    constructor() { 
-
-    }
+    constructor() {}
 
     async createWallet(): Promise<void> { }
-    
+    async requestToken(): Promise<void> { }
 
 }
